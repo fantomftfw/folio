@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Special Gothic Expanded One';
+  src: url('/fonts/SpecialGothicExpandedOne.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html, body {
+    @apply antialiased text-primary overflow-x-auto overflow-y-hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-aesthetic bg-clip-text text-transparent;
+  }
+} 

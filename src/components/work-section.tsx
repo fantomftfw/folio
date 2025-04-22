@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface WorkItemProps {
   title: string;
@@ -10,10 +11,11 @@ interface WorkItemProps {
   imageUrl: string;
   alt: string;
   index: number;
+  href?: string;
 }
 
-const WorkItem: React.FC<WorkItemProps> = ({ title, description, imageUrl, alt, index }) => {
-  return (
+const WorkItem: React.FC<WorkItemProps> = ({ title, description, imageUrl, alt, index, href }) => {
+  const itemContent = (
     <motion.div 
       className="flex flex-col w-full border border-[#F2F4F5] rounded-2xl overflow-hidden bg-white p-4 relative"
       initial={{ opacity: 0 }}
@@ -39,15 +41,24 @@ const WorkItem: React.FC<WorkItemProps> = ({ title, description, imageUrl, alt, 
       </div>
     </motion.div>
   );
+
+  return href ? (
+    <Link href={href} className="block hover:opacity-90 transition-opacity">
+      {itemContent}
+    </Link>
+  ) : (
+    itemContent
+  );
 };
 
 const WorkSection = () => {
   const workItems = [
     {
-      title: 'MentorX - a personal AI mentor',
-      description: 'A product design project of StoaMBA sting. Turnred out to be ahusd oahsfa oahsofhaos oahsof oahsfoao',
+      title: 'Revolutionizing Quality Testing for Nike & Decathlon',
+      description: 'UX Case Study exploring the redesign of pre-shipment audit processes for major footwear brands',
       imageUrl: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=500&auto=format&fit=crop',
-      alt: 'MentorX project - colorful abstract pattern'
+      alt: 'Quality Testing project - colorful abstract pattern',
+      href: '/work/quality-testing-audit-app'
     },
     {
       title: 'MentorX - a personal AI mentor',
@@ -89,6 +100,7 @@ const WorkSection = () => {
             description={item.description}
             imageUrl={item.imageUrl}
             alt={item.alt}
+            href={item.href}
           />
         ))}
       </div>

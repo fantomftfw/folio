@@ -18,6 +18,18 @@
     padding: 0;
     width: 100%;
   }
+  
+  /* Override for case study pages */
+  .case-study-page {
+    @apply overflow-y-auto overflow-x-hidden;
+    height: auto !important;
+  }
+  
+  .case-study-page body, 
+  .case-study-page html {
+    @apply overflow-y-auto overflow-x-hidden;
+    height: auto !important;
+  }
 }
 
 @layer components {

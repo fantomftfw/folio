@@ -17,7 +17,7 @@ const directionToRotation = {
   up: 'rotate-0',
   right: 'rotate-90',
   down: 'rotate-180',
-  left: '-rotate-90',
+  left: 'rotate-[270deg]',
 };
 
 const NavButton = ({ 
@@ -48,7 +48,8 @@ const NavButton = ({
       aria-label={`Navigate ${direction}`}
       aria-disabled={disabled}
     >
-      <div className={cn("w-4 h-4 relative", directionToRotation[direction])}>
+      <div className={cn("w-4 h-4 relative", 
+        direction === 'left' ? 'rotate-180' : directionToRotation[direction])}>
         <Image 
           src="/images/arrow-up.svg" 
           alt={`Arrow ${direction}`}

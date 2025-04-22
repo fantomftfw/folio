@@ -3,15 +3,38 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Navbar from '@/components/navbar';
 import NavControls from '@/components/nav-controls';
-import RollingBall from '@/components/rolling-ball';
+import KeyboardNavigation from '@/components/keyboard-navigation';
 import HeroSection from '@/components/hero-section';
 import WorkSection from '@/components/work-section';
+import ResumeSection from '@/components/resume-section';
+import ContactSection from '@/components/contact-section';
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
-  const [isRolling, setIsRolling] = useState(false);
-  const sections = ['home', 'work'];
+  const [isSectionChanging, setIsSectionChanging] = useState(false);
+  const sections = ['home', 'work', 'resume', 'contact'];
+  
+  // Prevent default scrolling behavior for navigation keys
+  useEffect(() => {
+    const preventArrowScroll = (e: KeyboardEvent) => {
+      // Don't block events in input elements
+      if (document.activeElement instanceof HTMLInputElement || 
+          document.activeElement instanceof HTMLTextAreaElement ||
+          document.activeElement instanceof HTMLSelectElement) {
+        return;
+      }
+      
+      // Prevent default for navigation keys to stop page scrolling
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 
+           'PageUp', 'PageDown', 'Space', ' ', 'Home', 'End'].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+    
+    window.addEventListener('keydown', preventArrowScroll);
+    return () => window.removeEventListener('keydown', preventArrowScroll);
+  }, []);
   
   // Update current section based on scroll position
   useEffect(() => {
@@ -21,7 +44,8 @@ export default function Home() {
         const width = window.innerWidth;
         const newSection = Math.round(scrollLeft / width);
         
-        if (newSection !== currentSection) {
+        if (newSection !== currentSection && newSection >= 0 && newSection < sections.length) {
+          console.log(`Updating current section to ${newSection}`);
           setCurrentSection(newSection);
         }
       }
@@ -32,72 +56,85 @@ export default function Home() {
       container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
     }
-  }, [currentSection]);
+  }, [currentSection, sections.length]);
   
   const scrollToSection = (index: number) => {
     if (containerRef.current && index >= 0 && index < sections.length) {
+      console.log(`Scrolling to section ${index}`);
       const sectionWidth = window.innerWidth;
+      
+      setIsSectionChanging(true);
+      
       containerRef.current.scrollTo({
         left: index * sectionWidth,
         behavior: 'smooth'
       });
+      
       setCurrentSection(index);
+      
+      // Reset section changing flag after animation completes
+      setTimeout(() => {
+        setIsSectionChanging(false);
+      }, 800);
     }
   };
 
-  // Handle navigation with the controls
-  const handleNavigate = (direction: 'up' | 'down' | 'left' | 'right') => {
-    if (direction === 'right' && currentSection < sections.length - 1 && !isRolling) {
-      // First start the ball rolling animation
-      setIsRolling(true);
-      // The actual scroll will happen after the animation completes
+  // Directly update current section based on scroll position
+  const updateCurrentSectionFromScroll = () => {
+    if (containerRef.current) {
+      const scrollLeft = containerRef.current.scrollLeft;
+      const width = window.innerWidth;
+      const newSection = Math.round(scrollLeft / width);
+      
+      if (newSection >= 0 && newSection < sections.length && newSection !== currentSection) {
+        console.log(`Updating to section ${newSection} from scroll position`);
+        setCurrentSection(newSection);
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Handle navigation with the controls or keyboard
+  const handleNavigate = (direction: 'up' | 'down' | 'left' | 'right' | 'direct') => {
+    console.log(`Navigation triggered: ${direction}`, currentSection);
+    
+    // For direct navigation (H,W,R,C keys)
+    if (direction === 'direct') {
+      // Just update the section based on current scroll
+      updateCurrentSectionFromScroll();
+      return;
+    }
+    
+    // Skip if already changing sections
+    if (isSectionChanging) return;
+    
+    // Left/right navigation
+    if (direction === 'right' && currentSection < sections.length - 1) {
+      console.log("Navigating to next section");
+      scrollToSection(currentSection + 1);
     } else if (direction === 'left' && currentSection > 0) {
+      console.log("Navigating to previous section");
       scrollToSection(currentSection - 1);
     }
   };
 
-  // Called when ball rolling animation completes
-  const handleRollComplete = () => {
-    // Now scroll to the next section
-    scrollToSection(currentSection + 1);
-    
-    // Reset the rolling state
-    setTimeout(() => {
-      setIsRolling(false);
-    }, 500);
-  };
-
-  // Handle keyboard shortcuts for navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const key = e.key.toLowerCase();
-      
-      switch (key) {
-        case 'h': // Home
-          scrollToSection(0);
-          break;
-        case 'w': // Work
-          scrollToSection(1);
-          break;
-        case 'r': // Resume
-          // Navigate to Resume section when implemented
-          break;
-        case 'c': // Connect
-          // Navigate to Connect section when implemented
-          break;
-        default:
-          break;
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   return (
     <main className="flex min-h-screen flex-col items-center overflow-hidden">
-      <div className="fixed top-0 left-0 w-full z-10 bg-background">
+      {/* Keyboard navigation handler */}
+      <KeyboardNavigation 
+        currentSection={currentSection}
+        onNavigate={handleNavigate}
+        maxSections={sections.length}
+      />
+      
+      <div className="fixed top-0 left-0 w-full z-20 bg-background">
         <Navbar currentSection={currentSection} />
+      </div>
+      
+      {/* Navigation Controls - Positioned fixed at bottom and left-aligned with hero text */}
+      <div className="fixed bottom-8 px-4 md:px-[180px] left-0 z-20">
+        <NavControls onNavigateCustom={handleNavigate} isFlying={isSectionChanging} />
       </div>
       
       <div 
@@ -108,30 +145,30 @@ export default function Home() {
         <div className="flex h-full">
           {/* Home section */}
           <section id="home" className="min-w-full h-full snap-start snap-always flex flex-col">
-            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px]">
+            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px] overflow-y-auto">
               <HeroSection />
-              <div className="relative h-[200px] mt-14 border-t border-gray-100">
-                <RollingBall isRolling={isRolling} onRollComplete={handleRollComplete} />
-              </div>
-            </div>
-            <div className="mt-auto pb-20 px-4 md:px-[180px]">
-              <div className="flex md:justify-start">
-                <div>
-                  <NavControls onNavigateCustom={handleNavigate} isRolling={isRolling} />
-                </div>
-              </div>
+              <div className="relative h-[200px] mt-14 border-t border-gray-100"></div>
             </div>
           </section>
           
           {/* Work section */}
           <section id="work" className="min-w-full h-full snap-start snap-always flex flex-col">
-            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px]">
+            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px] overflow-y-auto">
               <WorkSection />
             </div>
-            <div className="mt-auto pb-20 px-4 md:px-[180px]">
-              <div className="flex md:justify-start">
-                <NavControls onNavigateCustom={handleNavigate} isRolling={isRolling} />
-              </div>
+          </section>
+          
+          {/* Resume section */}
+          <section id="resume" className="min-w-full h-full snap-start snap-always flex flex-col">
+            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px] overflow-y-auto">
+              <ResumeSection />
+            </div>
+          </section>
+          
+          {/* Contact section */}
+          <section id="contact" className="min-w-full h-full snap-start snap-always flex flex-col">
+            <div className="flex-1 px-4 md:px-[180px] pt-10 md:pt-[30px] overflow-y-auto">
+              <ContactSection />
             </div>
           </section>
         </div>

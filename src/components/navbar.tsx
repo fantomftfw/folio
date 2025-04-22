@@ -40,8 +40,20 @@ const Navbar = ({ currentSection = 0 }: NavbarProps) => {
           isActive={currentSection === 1} 
           onClick={() => scrollToSection(1)}
         />
-        <NavItem icon="R" label="Resume" href="#resume" />
-        <NavItem icon="C" label="Connect" href="#connect" />
+        <NavItem 
+          icon="R" 
+          label="Resume" 
+          href="#resume" 
+          isActive={currentSection === 2} 
+          onClick={() => scrollToSection(2)}
+        />
+        <NavItem 
+          icon="C" 
+          label="Contact" 
+          href="#contact" 
+          isActive={currentSection === 3} 
+          onClick={() => scrollToSection(3)}
+        />
       </div>
     </motion.nav>
   );

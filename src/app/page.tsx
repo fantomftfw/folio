@@ -45,7 +45,6 @@ export default function Home() {
         const newSection = Math.round(scrollLeft / width);
         
         if (newSection !== currentSection && newSection >= 0 && newSection < sections.length) {
-          console.log(`Updating current section to ${newSection}`);
           setCurrentSection(newSection);
         }
       }
@@ -60,7 +59,6 @@ export default function Home() {
   
   const scrollToSection = (index: number) => {
     if (containerRef.current && index >= 0 && index < sections.length) {
-      console.log(`Scrolling to section ${index}`);
       const sectionWidth = window.innerWidth;
       
       setIsSectionChanging(true);
@@ -87,7 +85,6 @@ export default function Home() {
       const newSection = Math.round(scrollLeft / width);
       
       if (newSection >= 0 && newSection < sections.length && newSection !== currentSection) {
-        console.log(`Updating to section ${newSection} from scroll position`);
         setCurrentSection(newSection);
         return true;
       }
@@ -97,8 +94,6 @@ export default function Home() {
 
   // Handle navigation with the controls or keyboard
   const handleNavigate = (direction: 'up' | 'down' | 'left' | 'right' | 'direct') => {
-    console.log(`Navigation triggered: ${direction}`, currentSection);
-    
     // For direct navigation (H,W,R,C keys)
     if (direction === 'direct') {
       // Just update the section based on current scroll
@@ -111,10 +106,8 @@ export default function Home() {
     
     // Left/right navigation
     if (direction === 'right' && currentSection < sections.length - 1) {
-      console.log("Navigating to next section");
       scrollToSection(currentSection + 1);
     } else if (direction === 'left' && currentSection > 0) {
-      console.log("Navigating to previous section");
       scrollToSection(currentSection - 1);
     }
   };

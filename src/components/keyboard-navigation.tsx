@@ -18,15 +18,11 @@ const KeyboardNavigation: React.FC<KeyboardNavigationProps> = ({
 
   // Keyboard controls for navigation
   useEffect(() => {
-    console.log("Keyboard navigation component initialized");
-    
     // Direct section navigation with single key
     const handleDirectNavigation = (sectionIndex: number) => {
       if (sectionIndex < 0 || sectionIndex >= maxSections) {
         return; // Invalid section
       }
-      
-      console.log(`Direct navigation to section ${sectionIndex}`);
       
       // Throttle navigation
       const now = Date.now();
@@ -41,7 +37,6 @@ const KeyboardNavigation: React.FC<KeyboardNavigationProps> = ({
       const container = document.querySelector('div[style*="scroll-snap-type"]');
       
       if (container) {
-        console.log(`Found container, scrolling to section ${sectionIndex}`);
         const sectionWidth = window.innerWidth;
         
         // Scroll directly to section
@@ -58,7 +53,6 @@ const KeyboardNavigation: React.FC<KeyboardNavigationProps> = ({
           isSectionChanging.current = false;
         }, 800);
       } else {
-        console.log("Container not found, using fallback");
         // Fallback
         window.scrollTo({
           left: sectionIndex * window.innerWidth,
@@ -74,8 +68,6 @@ const KeyboardNavigation: React.FC<KeyboardNavigationProps> = ({
     
     // Arrow key navigation (left/right)
     const handleArrowNavigation = (direction: 'left' | 'right') => {
-      console.log(`Arrow navigation: ${direction}`);
-      
       // Throttle navigation
       const now = Date.now();
       if (now - lastMoveTime.current < 300 || isSectionChanging.current) {

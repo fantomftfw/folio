@@ -15,12 +15,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preload local fonts with high priority */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          href="/fonts/SpecialGothicExpandedOne.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/RedHatDisplay-VariableFont_wght.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-background min-h-screen overflow-hidden">
+      <body className="bg-background min-h-screen overflow-hidden font-red-hat">
         {children}
       </body>
     </html>

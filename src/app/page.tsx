@@ -113,7 +113,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center overflow-hidden">
+    <main className="flex min-h-screen flex-col items-center overflow-hidden font-red-hat">
       {/* Keyboard navigation handler */}
       <KeyboardNavigation 
         currentSection={currentSection}

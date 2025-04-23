@@ -29,6 +29,7 @@ module.exports = {
       },
       fontFamily: {
         'special-gothic': ['Special Gothic Expanded One', 'sans-serif'],
+        'red-hat': ['Red Hat Display', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
       },
       boxShadow: {

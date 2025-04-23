@@ -53,7 +53,7 @@ const HeroSection = () => {
       </div>
       
       <motion.p 
-        className="font-special-gothic text-xl md:text-heading-lg text-primary-light mt-1"
+        className="font-red-hat text-xl md:text-heading-lg text-primary-light mt-1"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1 }}

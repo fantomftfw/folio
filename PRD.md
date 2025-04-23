@@ -54,8 +54,22 @@ A modern, responsive portfolio website showcasing work, resume, and contact info
 ### Visual Design
 - **Typography**:
   - Primary Headings: Special Gothic Expanded One (64px on desktop)
-  - Body Text: Special Gothic (regular weight)
-  - Supporting Text: Roboto
+    - Use for all h1-h6 elements, section titles, and navigation elements
+    - Font file: SpecialGothicExpandedOne.ttf
+  - Body Text: Red Hat Display (variable font)
+    - Use for all paragraph text, descriptions, and general content
+    - Font file: RedHatDisplay-VariableFont_wght.ttf
+    - Variable weight range: 300-900
+    - Regular weight (400) for body text
+    - Medium weight (500) for emphasis
+    - Bold weight (700) for strong emphasis
+  - Font Implementation:
+    - Local font files stored in public/fonts directory
+    - Font preloading for optimal performance
+    - Font-display: block to prevent FOUT (Flash of Unstyled Text)
+    - High-specificity selectors to ensure proper inheritance
+    - Consistent font application across all breakpoints
+    - Variable font support for better performance and flexibility
 - **Color Scheme**:
   - Background: #FAFAFA
   - Primary Text: #474747
@@ -79,12 +93,18 @@ A modern, responsive portfolio website showcasing work, resume, and contact info
 - Optimized image loading
 - Efficient animations and transitions
 - Minimal layout shift during navigation
+- Font optimization:
+  - Preloading of font files
+  - Appropriate font-display strategies
+  - Tailwind class utility implementation
+  - Efficient use of variable fonts to reduce file size
 
 ### Accessibility
 - Semantic HTML structure
 - Keyboard navigation support
 - Appropriate color contrast
 - Alt text for images
+- Legible typography across all device sizes
 
 ### SEO
 - Proper metadata
@@ -94,3 +114,4 @@ A modern, responsive portfolio website showcasing work, resume, and contact info
 ### Browser Compatibility
 - Support for modern browsers (Chrome, Firefox, Safari, Edge)
 - Responsive across desktop and mobile devices 
+- Consistent font rendering across all browsers 

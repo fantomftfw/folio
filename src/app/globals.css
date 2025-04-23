@@ -7,28 +7,58 @@
   src: url('/fonts/SpecialGothicExpandedOne.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('/fonts/RedHatDisplay-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: block;
 }
 
 @layer base {
   html, body {
-    @apply antialiased text-primary overflow-x-auto overflow-y-hidden;
+    @apply antialiased text-primary overflow-x-auto overflow-y-hidden font-red-hat;
     height: 100%;
     margin: 0;
     padding: 0;
     width: 100%;
   }
   
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-special-gothic;
+  }
+  
   /* Override for case study pages */
   .case-study-page {
-    @apply overflow-y-auto overflow-x-hidden;
+    @apply overflow-y-auto overflow-x-hidden font-red-hat;
     height: auto !important;
   }
   
   .case-study-page body, 
   .case-study-page html {
-    @apply overflow-y-auto overflow-x-hidden;
+    @apply overflow-y-auto overflow-x-hidden font-red-hat;
     height: auto !important;
+  }
+
+  .case-study-page h1,
+  .case-study-page h2,
+  .case-study-page h3,
+  .case-study-page h4,
+  .case-study-page h5,
+  .case-study-page h6 {
+    @apply font-special-gothic;
+  }
+
+  /* Force font classes to have high specificity */
+  .font-special-gothic {
+    font-family: 'Special Gothic Expanded One', sans-serif !important;
+  }
+  
+  .font-red-hat {
+    font-family: 'Red Hat Display', sans-serif !important;
   }
 }
 

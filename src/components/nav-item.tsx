@@ -35,7 +35,7 @@ const NavItem = ({ icon, label, href, isActive = false, onClick }: NavItemProps)
           isActive ? "shadow-nav-active" : "shadow-nav-default"
         )}
       >
-        <span className="font-roboto font-semibold text-secondary">{icon}</span>
+        <span className="font-red-hat font-semibold text-secondary">{icon}</span>
       </div>
       <Link 
         href={href}

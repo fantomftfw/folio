@@ -7,16 +7,7 @@ export default function CaseStudyLayout({
 }) {
   return (
     <main 
-      style={{
-        height: '100vh',
-        overflow: 'auto',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: '#FAFAFA'
-      }}
+      className="case-study-page font-special-gothic-regular fixed inset-0 h-screen w-full overflow-auto bg-[#FAFAFA]"
     >
       {children}
     </main>

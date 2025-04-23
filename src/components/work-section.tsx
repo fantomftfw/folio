@@ -35,7 +35,7 @@ const WorkItem: React.FC<WorkItemProps> = ({ title, description, imageUrl, alt, 
         <h3 className="font-special-gothic text-xl text-[#212121] leading-tight">
           {title}
         </h3>
-        <p className="font-special-gothic text-base text-[#474747] leading-snug" style={{ fontFamily: 'Special Gothic' }}>
+        <p className="font-red-hat text-base text-[#474747] leading-snug" style={{ fontFamily: 'Red Hat Display, sans-serif' }}>
           {description}
         </p>
       </div>
